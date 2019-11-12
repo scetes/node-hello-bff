@@ -32,6 +32,6 @@ app.get('/factor9', function(req, res) {
 
 // Launch server
 
-app.listen(8080);
+app.listen(8088);
 
 console.log("node BFF app listening");
