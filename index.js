@@ -1,42 +1,37 @@
 var express = require("express"),
     path = require("path");
 
-	app = express();
+
+const request = require('request');
 
 
+app = express();
 
-// Config
+function getRoutes(callback){
+    request('http://127.0.0.1:8088/api/9', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            result = JSON.stringify(JSON.parse(body));          
+            return callback(null, result);
+        } else {            
+            return callback(error, null);;
+        }
+    });
+}
 
-app.get('/api', function (req, res) {
+app.get('/factor9', function(req, res) {
 
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
-var ss = String(today.getSeconds()).padStart(2,'0');
-var hms = String(today.getMinutes()).padStart(2, '0') + ":" + String(today.getSeconds()).padStart(2, '0');
-var factr = 800000;
+    getRoutes(function(err, data){ 
+        if(err) return res.send(err);       
+        res.send('Response from Factor function: ' + data);
+    });
 
-today = yyyy + '-' + mm + '-' + dd + '-' + hms;
-
-factorialize(factr);
-
-  res.send('Howdy.  I am v2.  Faster running factorial(' + factr + ') ' + today);
 });
 
 
-function factorialize(num) {
-  if (num === 0 || num === 1)
-    return 1;
-  for (var i = num - 1; i >= 1; i--) {
-    num *= i;
-    //console.log("iteration: " + i)
-  }
-  return num;
-}
+
 
 // Launch server
 
-app.listen(8088);
+app.listen(8080);
 
-console.log("node app listening");
+console.log("node BFF app listening");
