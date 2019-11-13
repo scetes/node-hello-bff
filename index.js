@@ -8,7 +8,7 @@ const request = require('request');
 app = express();
 
 function getRoutes(callback){
-    request('http://http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
+    request('http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             result = JSON.stringify(JSON.parse(body));          
             return callback(null, result);
