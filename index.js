@@ -53,12 +53,10 @@ app.get('/factor9', function(req, res) {
 });
 
 app.get('/', function(req, res) {
+    
+    console.log("app route / requested");
 
-    getHealth(function(err, data){ 
-        if(err) return res.send(err);       
-        res.send('Response from Factor function: ' + data);
-    });
-
+    res.json({"Health": "Good"});
 });
 
 
