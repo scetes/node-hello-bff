@@ -2,7 +2,7 @@ var express = require("express"),
     path = require("path");
 
 
-//const request = require('request');
+const request = require('request');
 //var AWSXRay = require('aws-xray-sdk');
 
 app = express();
@@ -71,6 +71,7 @@ app.get('/mesh', function(req, res) {
 
 });
 
+//app.use(AWSXRay.express.closeSegment());
 
 
 // Launch server
