@@ -12,7 +12,7 @@ app = express();
 function getHealth(callback){
     request('http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            result = '{"Greeting", "Hello"};          
+            result = '{"Greeting", "Hello"}';          
             return callback(null, result);
         } else {            
             return callback(error, null);;
