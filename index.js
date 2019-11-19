@@ -53,7 +53,7 @@ app.get('/factor9', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-    
+
     console.log("app route / requested");
 
     res.json({"Health": "Good"});
@@ -73,7 +73,13 @@ app.get('/mesh', function(req, res) {
 
 
 // Launch server
+var server = app.listen(8088);
 
-app.listen(8088);
+server.on('connection', function(socket) {
+  console.log("A new connection was made by a client.");
+  socket.setTimeout(300 * 1000); 
+  // 30 second timeout. Change this as you see fit.
+});
+
 
 console.log("node BFF app listening");
