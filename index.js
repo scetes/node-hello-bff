@@ -62,6 +62,8 @@ app.get('/', function(req, res) {
 
 app.get('/mesh', function(req, res) {
 
+    console.log("app route /mesh requested");
+
     getRoutesMesh(function(err, data){ 
         if(err) return res.send(err);       
         res.send('Response from Mesh function: ' + data);
