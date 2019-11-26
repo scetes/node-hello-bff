@@ -62,9 +62,9 @@ app.get('/', function(req, res) {
 
 app.get('/mesh', function(req, res) {
 
-    getRoutes(function(err, data){ 
+    getRoutesMesh(function(err, data){ 
         if(err) return res.send(err);       
-        res.send('Response from Factor function: ' + data);
+        res.send('Response from Mesh function: ' + data);
     });
 
 });
