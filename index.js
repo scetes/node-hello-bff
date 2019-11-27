@@ -34,7 +34,7 @@ function getRoutes(callback){
 
 function getRoutesMesh(callback){
 //    request('http://node-hello-fargate-appmesh-service.local:8088/api/9', function(error, response, body) {
-    request('http://serviceB:8088/api/9', function(error, response, body) {
+    request('http://vs-serviceB:8088/api/9', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             result = JSON.stringify(JSON.parse(body));          
             return callback(null, result);
