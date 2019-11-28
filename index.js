@@ -9,31 +9,8 @@ app = express();
 
 //app.use(AWSXRay.express.openSegment('MyApp'));
 
-function getHealth(callback){
-    request('http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            result = '{"Greeting", "Hello"}';          
-            return callback(null, result);
-        } else {            
-            return callback(error, null);;
-        }
-    });
-}
 
-
-function getRoutes(callback){
-    request('http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            result = JSON.stringify(JSON.parse(body));          
-            return callback(null, result);
-        } else {            
-            return callback(error, null);;
-        }
-    });
-}
-
-function getRoutesMesh(callback){
-//    request('http://node-hello-fargate-appmesh-service.local:8088/api/9', function(error, response, body) {
+function getFactorFromVirtualService(callback){
     request('http://vs-serviceB:8088/api/9', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             result = JSON.stringify(JSON.parse(body));          
@@ -44,33 +21,71 @@ function getRoutesMesh(callback){
     });
 }
 
-app.get('/factor9', function(req, res) {
-
-    getRoutes(function(err, data){ 
-        if(err) return res.send(err);       
-        res.send('Response from Factor function: ' + data);
+function getFactorFromLoadBalancer(callback){
+    request('http://node-hello-alb-1752502560.us-east-1.elb.amazonaws.com:8088/api/9', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            result = JSON.stringify(JSON.parse(body));          
+            return callback(null, result);
+        } else {            
+            return callback(error, null);;
+        }
     });
+}
 
-});
+function getFactorFromTaskDNS(callback){
+    request('http://node-hello-fargate-appmesh-service.local:8088/api/9', function(error, response, body) {
+//    request('http://vs-serviceB:8088/api/9', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            result = JSON.stringify(JSON.parse(body));          
+            return callback(null, result);
+        } else {            
+            return callback(error, null);;
+        }
+    });
+}
+
 
 app.get('/', function(req, res) {
+
 
     console.log("app route / requested");
 
     res.json({"Health": "Good"});
 });
 
+app.get('/taskdns', function(req, res) {
 
-app.get('/mesh', function(req, res) {
+    console.log("app route /taskdns requested");
 
-    console.log("app route /mesh requested");
-
-    getRoutesMesh(function(err, data){ 
+    getFactorFromTaskDNS(function(err, data){ 
         if(err) return res.send(err);       
-        res.send('Response from Mesh function: ' + data);
+        res.send('Response from Service Task DNS: ' + data);
     });
 
 });
+
+app.get('/lb', function(req, res) {
+
+    console.log("app route /lb requested");
+
+    getFactorFromLoadBalancer(function(err, data){ 
+        if(err) return res.send(err);       
+        res.send('Response from Service Load Balancer: ' + data);
+    });
+
+});
+
+app.get('/vs', function(req, res) {
+
+    console.log("app route /vs requested");
+
+    getFactorFromVirtualService(function(err, data){ 
+        if(err) return res.send(err);       
+        res.send('Response from Virtual Service: ' + data);
+    });
+
+});
+
 
 //app.use(AWSXRay.express.closeSegment());
 
