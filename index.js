@@ -55,7 +55,7 @@ app.get('/', function(req, res) {
 
 app.get('/taskdns', function(req, res) {
 
-    console.log("app route /taskdns requested");
+    console.log("Application route /taskdns requested");
 
     getFactorFromTaskDNS(function(err, data){ 
         if(err) return res.send(err);       
