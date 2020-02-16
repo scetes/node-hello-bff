@@ -100,4 +100,4 @@ server.on('connection', function(socket) {
 });
 
 
-console.log("node BFF app listening");
+console.log("Hello FE Application listening on 8088");
