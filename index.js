@@ -59,7 +59,7 @@ app.get('/taskdns', function(req, res) {
 
     getFactorFromTaskDNS(function(err, data){ 
         if(err) return res.send(err);       
-        res.send('v1.3 Response from http://node-hello-fargate-appmesh-service.local:8088: ' + data);
+        res.send('v1.4 Response from http://node-hello-fargate-appmesh-service.local:8088: ' + data);
     });
 
 });
