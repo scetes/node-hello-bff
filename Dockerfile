@@ -16,7 +16,7 @@ RUN git clone git://github.com/scetes/node-hello-bff
 RUN cd node-hello-bff ;npm install
 
 # check the container's fs to verify files were pulled in
-RUN ls -l /node-hello-bff
+# RUN ls -l /node-hello-bff
 
 # used in docker run; confusing that it is in the build file 
 CMD ["nodejs", "/node-hello-bff/index.js"]

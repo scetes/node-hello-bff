@@ -1,0 +1,21 @@
+version: 0.1
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build --no-cache -t scetes/mynodehellobff .   
+      - docker tag scetes/mynodehellobff:latest 132128900744.dkr.ecr.us-east-1.amazonaws.com/scetes/mynodehellod:latest   
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 132128900744.dkr.ecr.us-east-1.amazonaws.com/scetes/mynodehellod:latest
